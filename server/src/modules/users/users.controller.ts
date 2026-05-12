@@ -24,5 +24,5 @@ export const getCurrentUserPublicProfile = asyncHandler(async(req:Request, res:R
 export const updateCurrentUserProfile = asyncHandler(async(req:Request,res:Response)=>{
     const updatedUserProfile = await userService.updateUserProfile(req.user!.uid,req.body)
 
-    return res.status(200).json(new ApiResponse(200, "User details updated successfully"));
+    return res.status(200).json(new ApiResponse(200, updatedUserProfile, "User details updated successfully"));
 })
