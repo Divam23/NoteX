@@ -5,6 +5,7 @@ import { validateFile } from '@/infrastructure/storage/utils/validateFile';
 import { getNoteContentType } from '@/infrastructure/storage/utils/getNoteContentType';
 import { generateFilePath } from '@/infrastructure/storage/utils/filePathGenerator';
 import firebaseStorageProvider from '@/infrastructure/storage/providers/firebase.provider';
+import { CreateNoteDto } from './dto/createNote.dto';
 
 export const createNote = async ({
   firebaseUid,
@@ -12,7 +13,7 @@ export const createNote = async ({
   uploadedFile,
 }: {
   firebaseUid: string;
-  noteData: any;
+  noteData: CreateNoteDto;
   uploadedFile: Express.Multer.File;
 }) => {
   const user = await User.findOne({
@@ -41,9 +42,13 @@ export const createNote = async ({
 
   const note = await Note.create({
    ...noteData,
-   fileUrl,
+   file: {
+      url: fileUrl,
+      mimeType: uploadedFile.mimetype,
+      size: uploadedFile.size
+   },
    contentType,
-   uploadedBy: user._id
+   uploader: user._id
 });
 
   return note;

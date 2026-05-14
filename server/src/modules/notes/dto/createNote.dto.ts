@@ -1,5 +1,15 @@
-// export interface CreateNoteDto{
-//     title: string,
-//     description?:string,
-//     subject:
-// }
+import { NoteCategoryType } from "../notes.model";
+
+export interface CreateNoteDto{
+    title: string,
+    description?:string,
+    subject: string,
+    category: NoteCategoryType,
+    tags:string[],
+    course: string,
+    university:string,
+    semester:number ,
+    language?:string,
+    isPublic:boolean,
+
+}

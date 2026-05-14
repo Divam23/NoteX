@@ -31,7 +31,7 @@ export const MODERATION_FLAGS_ENUM = [
   'low_quality',
 ] as const;
 
-type NoteCategoryType =
+export type NoteCategoryType =
   typeof NOTE_CATEGORY_ENUM[number];
 
 type NoteContentType =
@@ -399,6 +399,11 @@ NoteSchema.index({
 NoteSchema.index({
   'stats.qualityScore': -1,
 });
+
+NoteSchema.index({
+  status: 1,
+  isPublic: 1
+})
 
 // Virtuals
 NoteSchema.virtual('likesCount').get(
