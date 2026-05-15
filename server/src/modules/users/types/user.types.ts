@@ -15,15 +15,22 @@ export interface IUser extends Document {
   subject?: string[];
   university?: string;
   semester?: number;
-  isVerified: VerificationType[];
+  verificationStatus: VerificationType[];
   roles: RoleType[];
-  preferences?: any;
-  stats?: any;
+  preferences: Object;
+  stats: {
+    reputationScore:number,
+    notesUploadedCount:number,
+    totalViews:number,
+    followersCount:number,
+    followingCount:number
+  };
   moderation?: {
     isBanned: boolean;
     banReason?: string;
     banUntil?: Date | null;
   };
   lastLoginAt?: Date;
-  lastUpdated?:Date;
+  createdAt?:Date;
+  updatedAt?:Date;
 }

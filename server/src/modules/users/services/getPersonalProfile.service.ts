@@ -22,6 +22,7 @@ export const getPersonalProfile = async (firebaseUid: string) => {
       stats: 1,
       moderation: 1,
       lastLoginAt: 1,
+      lastUpdated: 1,
     }
   ).lean();
 

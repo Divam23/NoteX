@@ -100,7 +100,7 @@ const UserSchema = new Schema(
         message: 'A user must have at least one role.',
       },
     },
-    isVerified:{
+    verificationStatus:{
       type:[String],
       enum: VERIFICATION_ENUM,
       default: ['not_verified'],
@@ -204,9 +204,6 @@ const UserSchema = new Schema(
     // Activity
     lastLoginAt: {
       type: Date,
-    },
-    lastUpdatedAt:{
-      type:Date
     },
   },
   {

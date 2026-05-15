@@ -12,10 +12,11 @@ export const mapPersonalProfileResponse = (user: IUser) => ({
     subject: user.subject,
     university: user.university,
     semester: user.semester,
-    isVerified: user.isVerified,
+    verificationStatus: user.verificationStatus,
     roles: user.roles,
     preferences: user.preferences,
     stats: user.stats,
     moderation: user.moderation,
-    lastLoginAt: user.lastLoginAt
+    lastLoginAt: user.lastLoginAt,
+    lastUpdatedAt:user.updatedAt
 });
