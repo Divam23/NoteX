@@ -40,7 +40,7 @@ export const mapSingleNoteResponse = ({
             lastName: uploader.lastName,
             userName: uploader.userName,
             avatar: uploader.avatar,
-            isVerified: uploader.verificationStatus.values(),
+            isVerified: uploader.verificationStatus,
         },
         stats: {
             viewsCount: note.stats?.viewsCount || 0,

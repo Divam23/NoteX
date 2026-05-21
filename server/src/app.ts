@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import { errorMiddleware } from './shared/middlewares/error.middleware';
 import morgan from 'morgan';
+import routes from './routes';
 
 configDotenv();
 
@@ -35,14 +36,7 @@ app.get('/health', (_, res) => {
 });
 
 //routes import
-import authRoutes from "@/modules/auth/auth.routes";
-import userRoutes from "@/modules/users/users.routes"
-import noteRoutes from "@/modules/notes/notes.route"
-
-//routes setup
-app.use('/api/v1/auth/', authRoutes);
-app.use('api/v1/me/', userRoutes)
-app.use('api/v1/note', noteRoutes)
+app.use("/api/v1", routes)
 
 //error middleware
 app.use(errorMiddleware);

@@ -31,7 +31,7 @@ export const getSingleNoteData = async (firebaseUid: string, noteId: string) => 
         publishedAt
     `
         )
-        .populate('uploader', `firstName lastName userName avatar isVerified`)
+        .populate('uploader', `firstName lastName userName avatar verificationStatus`)
         .lean();
 
     if (!note) {
