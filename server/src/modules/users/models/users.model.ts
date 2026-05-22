@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
-import { VERIFICATION_ENUM } from './constants/userVerification.constant';
-import { IUser } from './types/user.types';
-import { ROLE_ENUM } from './constants/userRole.constant';
+import { VERIFICATION_ENUM } from '../constants/userVerification.constant';
+import { IUser } from '../types/user.types';
+import { ROLE_ENUM } from '../constants/userRole.constant';
 
 const UserSchema = new Schema(
   {

@@ -4,7 +4,7 @@ import { ApiError } from '@/shared/utils/ApiError';
 import firebaseStorageProvider from '@/infrastructure/storage/providers/firebase.provider';
 
 export const deleteSingleNote = async (firebaseUid: string, noteId: string) => {
-    const user = await User.findOne({firebaseUid}).lean();
+    const user = await User.findOne({ firebaseUid }).lean();
 
     if (!user) {
         throw new ApiError(401, 'Unauthorized User');
@@ -21,15 +21,25 @@ export const deleteSingleNote = async (firebaseUid: string, noteId: string) => {
         throw new ApiError(403, 'You cannot delete this note');
     }
 
+    //try deleting file
+    try {
+        if (note.file?.url) {
+            await firebaseStorageProvider.deleteFile(note.file.url);
+        }
 
-    if (note.file?.url) {
-        await firebaseStorageProvider.deleteFile(note.file.url);
+        if (note.file?.thumbnailUrl) {
+            await firebaseStorageProvider.deleteFile(note.file.thumbnailUrl);
+        }
+
+        await Note.findByIdAndDelete(noteId);
+
+        return {
+            deleted: true,
+            noteId,
+        };
+    } catch (error) {
+        console.error('Firebase cleanup failed', error);
+
+        throw new ApiError(500, 'Failed to delete note files');
     }
-
-    await Note.findByIdAndDelete(noteId);
-
-    return {
-        deleted:true,
-        noteId
-    };
 };

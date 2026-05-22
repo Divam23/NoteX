@@ -1,5 +1,5 @@
 import { ApiError } from "@/shared/utils/ApiError";
-import User from "../users.model";
+import User from "../models/users.model";
 
 export const getPublicProfile = async (firebaseUid: string) => {
   const user = await User.findOne(

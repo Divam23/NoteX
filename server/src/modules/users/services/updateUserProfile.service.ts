@@ -1,5 +1,5 @@
 import { ApiError } from "@/shared/utils/ApiError";
-import User from "../users.model";
+import User from "../models/users.model";
 import { UpdateProfileDto } from "../dto/updateProfile.dto";
 
 export const updateUserProfile = async(firebaseUid:string, updateData:UpdateProfileDto)=>{

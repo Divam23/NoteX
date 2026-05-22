@@ -6,7 +6,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import { errorMiddleware } from './shared/middlewares/error.middleware';
 import morgan from 'morgan';
-import routes from './routes';
+import routes from './routes/global.routes';
 
 configDotenv();
 
