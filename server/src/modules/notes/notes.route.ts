@@ -9,6 +9,8 @@ import { getNoteListController } from "./controllers/getListOfNotes.controller";
 import { deleteNoteSchema } from "./validators/deleteNote.validators";
 import { deleteSingleNoteController } from "./controllers/deleteSingleNote.controller";
 import { getNoteIdSchema } from "./validators/getNoteIdSchema.validator";
+import { updateSingleNoteController } from "./controllers/updateSingleNote.controller";
+import { updateNoteSchema } from "./validators/updateNote.validatiors";
 
 const router = Router();
 
@@ -19,6 +21,7 @@ router.route("/feed").get(getNoteListController)
 router.route("/create").post(verifyFirebaseToken, noteUpload.single("file"), validate(createNoteSchema), uploadNote);
 router.route("/:id").get(verifyFirebaseToken, validate(getNoteIdSchema), getSingleNoteController)
 router.route("/delete/:id").get(verifyFirebaseToken, validate(deleteNoteSchema), deleteSingleNoteController)
+router.route("/update/:id").patch(verifyFirebaseToken, validate(getNoteIdSchema), validate(updateNoteSchema), updateSingleNoteController)
 
 
 export default router;

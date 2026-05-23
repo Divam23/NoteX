@@ -1,13 +1,8 @@
 import { Request, Response } from 'express';
-
 import { ApiResponse } from '@/shared/utils/ApiResponse';
-
 import { ApiError } from '@/shared/utils/ApiError';
-
 import { asyncHandler } from '@/shared/utils/asyncHandler';
-
 import { getSingleNoteData } from '../services/getSingleNote.service';
-
 import { mapSingleNoteResponse } from '../mappers/getSingleNote.mapper';
 
 export const getSingleNoteController = asyncHandler(
