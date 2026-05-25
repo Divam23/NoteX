@@ -9,7 +9,7 @@ export const mapPersonalProfileResponse = (user: IUser) => ({
     bio: user.bio,
     college: user.college,
     course: user.course,
-    subject: user.subject,
+    subjects: user.subjects,
     university: user.university,
     semester: user.semester,
     verificationStatus: user.verificationStatus,

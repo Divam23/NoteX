@@ -19,12 +19,13 @@ export const updateProfileAvatar = async(firebaseUid: string, uploadedAvatarFile
     const path = generateAvatarFilePath(user._id.toString(), uploadedAvatarFile.originalname);
 
     let avatarUrl = "";
-    let oldAvatarUrl = user.avatar;
+    let oldAvatarUrl = user.avatar?.url;
 
     try {
         avatarUrl = await firebaseStorageProvider.uploadFile(uploadedAvatarFile.buffer, path, uploadedAvatarFile.mimetype)
 
-        user.avatar = avatarUrl;
+        user.avatar.url = avatarUrl;
+        user.avatar.storagePath = path;
 
         await user.save();
 

@@ -12,7 +12,7 @@ export const getPublicProfile = async (firebaseUid: string) => {
       bio: 1,
       college: 1,
       course: 1,
-      subject: 1,
+      subjects: 1,
       university: 1,
       semester: 1,
       isVerified: 1,

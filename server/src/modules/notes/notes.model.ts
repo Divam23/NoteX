@@ -21,6 +21,7 @@ const NoteSchema = new Schema<INote>(
             type: String,
             trim: true,
             maxlength: 500,
+            default:""
         },
 
         subject: {
@@ -65,6 +66,7 @@ const NoteSchema = new Schema<INote>(
             type: String,
             trim: true,
             maxlength: 100,
+            default:""
         },
 
         semester: {
@@ -90,6 +92,10 @@ const NoteSchema = new Schema<INote>(
                     },
                     message: 'Invalid file URL',
                 },
+            },
+            storagePath:{
+                type:String,
+                requried:true
             },
 
             mimeType: {
@@ -126,6 +132,7 @@ const NoteSchema = new Schema<INote>(
         // Content extraction
         extractedText: {
             type: String,
+            select:false
         },
 
         // Ownership
@@ -151,7 +158,6 @@ const NoteSchema = new Schema<INote>(
 
         publishedAt: {
             type: Date,
-            default: Date.now,
         },
 
         // Analytics & stats
@@ -179,6 +185,11 @@ const NoteSchema = new Schema<INote>(
                 default: 0,
                 min: 0,
             },
+            commentsCount:{
+                type:Number,
+                default:0,
+                min:0
+            },
 
             sharesCount: {
                 type: Number,
@@ -203,7 +214,6 @@ const NoteSchema = new Schema<INote>(
                 type: Number,
                 default: 0,
                 min: 0,
-                max: 100,
             },
 
             qualityScore: {
@@ -270,6 +280,12 @@ NoteSchema.index({
 });
 
 NoteSchema.index({
+    createdAt: -1,
+    status: 1,
+    isPublic: 1,
+});
+
+NoteSchema.index({
     uploader: 1,
     createdAt: -1,
 });
@@ -292,14 +308,6 @@ NoteSchema.index({
 });
 
 // Virtuals
-NoteSchema.virtual('likesCount').get(function () {
-    return this.likedBy?.length || 0;
-});
-
-NoteSchema.virtual('bookmarksCount').get(function () {
-    return this.bookmarkedBy?.length || 0;
-});
-
 NoteSchema.set('toJSON', {
     virtuals: true,
 });
@@ -311,35 +319,21 @@ NoteSchema.set('toObject', {
 // Methods
 NoteSchema.methods.calculateEngagementScore = function () {
     const views = this.stats?.viewsCount || 0;
-
     const downloads = this.stats?.downloadCount || 0;
-
-    const likes = this.likedBy?.likesCount || 0;
-
-    const bookmarks = this.bookmarkedBy?.bookmarksCount || 0;
-
+    const likes = this.stats?.likesCount || 0;
+    const bookmarks = this.stats?.bookmarksCount || 0;
     const ratings = this.stats?.ratingsAverage || 0;
-
     const score = downloads * 5 + likes * 3 + bookmarks * 4 + views * 0.5 + ratings * 10;
 
     return Math.min(100, Math.round(score / 10));
 };
 
-NoteSchema.methods.updateConversionRate = function () {
-    if (this.stats && this.stats.viewsCount > 0) {
-        this.stats.conversionRate = this.stats.downloadCount! / this.stats.viewsCount;
-    }
-};
 
 // Hooks
-NoteSchema.pre('save', function (next) {
+NoteSchema.pre('save', async function () {
     this.stats = this.stats || {};
 
     this.stats.engagementScore = this.calculateEngagementScore();
-
-    this.updateConversionRate();
-
-    next;
 });
 
 const Note = mongoose.model<INote>('Note', NoteSchema);

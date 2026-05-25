@@ -11,65 +11,52 @@ export interface IPopulatedNote extends Omit<INote, 'uploader'> {
 
 export interface INote extends Document {
     title: string;
-    description?: string;
-
+    description: string;
     subject: string;
-
     category: NoteCategoryType;
-
     contentType: NoteContentType;
-
-    tags?: string[];
-
+    tags: string[];
     course?: string;
-
-    university?: string;
-
+    university: string;
     semester?: number;
-
-    language?: string;
+    language: string;
 
     file: {
         url: string;
+        storagePath:string;
         mimeType: string;
-        size?: number;
-        thumbnailUrl?: string;
-        pageCount?: number;
-        readingTime?: number;
+        size: number;
+        thumbnailUrl: string;
+        pageCount: number;
+        readingTime: number;
     };
 
     extractedText?: string;
 
     uploader: mongoose.Types.ObjectId;
-
-    likedBy?: mongoose.Types.ObjectId[];
-
-    bookmarkedBy?: mongoose.Types.ObjectId[];
-
     isPublic: boolean;
-
     status: NoteStatusType;
+    publishedAt: Date;
 
-    publishedAt?: Date;
-
-    stats?: {
-        viewsCount?: number;
-        downloadCount?: number;
-        sharesCount?: number;
-        likesCount?:number;
-        ratingsAverage?: number;
-        ratingsCount?: number;
-        engagementScore?: number;
-        qualityScore?: number;
-        conversionRate?: number;
-        lastViewedAt?: Date;
+    stats: {
+        viewsCount: number;
+        downloadCount: number;
+        sharesCount: number;
+        likesCount:number;
+        bookmarksCount:number;
+        ratingsAverage: number;
+        ratingsCount: number;
+        engagementScore: number;
+        qualityScore: number;
+        conversionRate: number;
+        lastViewedAt: Date;
     };
 
-    moderation?: {
-        reportCount?: number;
-        moderationFlags?: NoteModerationFlagsType[];
-        moderatedBy?: mongoose.Types.ObjectId;
-        moderatedAt?: Date;
+    moderation: {
+        reportCount: number;
+        moderationFlags: NoteModerationFlagsType[];
+        moderatedBy: mongoose.Types.ObjectId;
+        moderatedAt: Date;
     };
     createdAt: Date;
     updatedAt: Date;

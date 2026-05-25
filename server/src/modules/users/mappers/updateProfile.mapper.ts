@@ -7,7 +7,7 @@ export const mapUpdateProfileResponse = (user:IUser)=>({
     avatar:user.avatar,
     bio:user.bio,
     college:user.college,
-    subject:user.subject,
+    subjects:user.subjects,
     course:user.course,
     university:user.university,
     semester:user.semester,
