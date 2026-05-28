@@ -24,8 +24,6 @@ export const getSingleNoteData = async (firebaseUid: string, noteId: string) => 
         contentType
         uploader
         stats
-        likedBy
-        bookmarkedBy
         createdAt
         updatedAt
         publishedAt
@@ -52,12 +50,6 @@ export const getSingleNoteData = async (firebaseUid: string, noteId: string) => 
 
         if (currentUser) {
             const currentUserId = currentUser._id.toString();
-
-            //render likes, bookmarks on the note
-            isLiked = note.likedBy?.some((id) => id.toString() === currentUserId) || false;
-
-            isBookmarked =
-                note.bookmarkedBy?.some((id) => id.toString() === currentUserId) || false;
 
             isOwner =
                 note.uploader && '_id' in note.uploader

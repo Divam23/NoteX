@@ -1,0 +1,72 @@
+import Comment from '../model/comment.model';
+import User from '@/modules/users/models/users.model';
+import Note from '@/modules/notes/notes.model';
+import { ApiError } from '@/shared/utils/ApiError';
+
+import { CreateCommentDto } from '../dto/createComment.dto';
+
+export const createComment = async ({
+    firebaseUid,
+    noteId,
+    commentData,
+}: {
+    firebaseUid: string;
+    noteId: string;
+    commentData: CreateCommentDto;
+}) => {
+    const user = await User.findOne({ firebaseUid }).lean();
+
+    if (!user) {
+        throw new ApiError(404, 'User not found');
+    }
+
+    const note = await Note.findById(noteId).lean();
+
+    if (!note) {
+        throw new ApiError(404, 'Note not found');
+    }
+
+    let parentCommentDoc = null;
+
+    if (commentData.parentComment) {
+        parentCommentDoc = await Comment.findById(commentData.parentComment).lean();
+
+        if (!parentCommentDoc) {
+            throw new ApiError(404, 'Parent comment not found');
+        }
+
+        if (parentCommentDoc.note.toString() !== noteId) {
+            throw new ApiError(400, 'Parent comment belongs to different note');
+        }
+    }
+
+    const comment = await Comment.create({
+        note: note._id,
+        user: user._id,
+        content: commentData.content,
+        parentComment: commentData.parentComment || null,
+    });
+
+    //populate user from comment
+    const populatedComment = await Comment.findById(comment._id).populate('user');
+
+    const updatePromises: Promise<any>[] = [
+        Note.findByIdAndUpdate(note._id, {
+            $inc: {
+                'stats.commentsCount': 1,
+            },
+        }).exec(),
+    ];
+
+    if (parentCommentDoc) {
+        updatePromises.push(
+            Comment.findByIdAndUpdate(parentCommentDoc._id, {
+                $inc: { 'stats.repliesCount': 1 },
+            }).exec()
+        );
+    }
+
+    await Promise.all(updatePromises);
+
+    return populatedComment;
+};

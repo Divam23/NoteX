@@ -45,8 +45,8 @@ export const mapNoteListResponse = ({
                 downloadCount: note.stats?.downloadCount || 0,
                 ratingsAverage: note.stats?.ratingsAverage || 0,
                 ratingsCount: note.stats?.ratingsCount || 0,
-                likesCount: note.likedBy?.length || 0,
-                bookmarksCount: note.bookmarkedBy?.length || 0,
+                likesCount: note.stats.likesCount || 0,
+                bookmarksCount: note.stats.bookmarksCount || 0,
             },
             createdAt: note.createdAt,
         };
