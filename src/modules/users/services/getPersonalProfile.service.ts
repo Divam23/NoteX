@@ -16,7 +16,7 @@ export const getPersonalProfile = async (firebaseUid: string) => {
       subjects: 1,
       university: 1,
       semester: 1,
-      isVerified: 1,
+      verificationStatus: 1,
       roles: 1,
       preferences: 1,
       stats: 1,

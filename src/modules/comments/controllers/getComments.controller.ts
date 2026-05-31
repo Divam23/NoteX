@@ -8,7 +8,7 @@ import { IComment } from '../types/comment.types';
 
 export const getAllTopLevelCommentsController = asyncHandler(async (req: Request, res: Response) => {
     const noteId = req.params.noteId as string;
-    const page = Number(req.query.page) || 10;
+    const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 20;
     const currentFirebaseUid = req.user?.uid;
 

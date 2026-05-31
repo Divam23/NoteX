@@ -11,11 +11,11 @@ export const toggleNoteLikeController = asyncHandler(async (req: Request, res: R
     }
 
     const firebaseUid = req.user.uid;
-    const noteId = req.params.commentId as string;
+    const noteId = req.params.noteId as string;
 
     const response = await toggleLike(
         firebaseUid,
-        EntityType.Note,
+        "Note",
         noteId
     );
 

@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import { toggleLike } from '../services/toggleLike.service';
 import { ApiError } from '@/shared/utils/ApiError';
 import { ApiResponse } from '@/shared/utils/ApiResponse';
-import { EntityType } from '../constants/entityType.constant';
 
 export const toggleCommentLikeController = asyncHandler(async (req: Request, res: Response) => {
     if (!req.user) {
@@ -15,7 +14,7 @@ export const toggleCommentLikeController = asyncHandler(async (req: Request, res
 
     const response = await toggleLike(
         firebaseUid,
-        EntityType.Comment,
+        "Comment",
         commentId
     );
 

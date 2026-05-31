@@ -13,14 +13,14 @@ const NoteSchema = new Schema<INote>(
             required: true,
             trim: true,
             minlength: 2,
-            maxlength: 100,
+            maxlength: 120,
             index: true,
         },
 
         description: {
             type: String,
             trim: true,
-            maxlength: 500,
+            maxlength: 1000,
             default:""
         },
 
@@ -72,7 +72,7 @@ const NoteSchema = new Schema<INote>(
         semester: {
             type: Number,
             min: 1,
-            max: 8,
+            max: 10,
             index: true,
         },
 
@@ -95,7 +95,7 @@ const NoteSchema = new Schema<INote>(
             },
             storagePath:{
                 type:String,
-                requried:true
+                required:true
             },
 
             mimeType: {

@@ -5,7 +5,7 @@ import firebaseStorageProvider from "@/infrastructure/storage/providers/firebase
 import { validateAvatarFile } from "@/infrastructure/storage/utils/validateAvatarFile";
 
 export const updateProfileAvatar = async(firebaseUid: string, uploadedAvatarFile:Express.Multer.File)=>{
-    const user = await User.findOne({firebaseUid}).lean();
+    const user = await User.findOne({firebaseUid});
     if(!user){
         throw new ApiError(404, "User not found");
     }
